@@ -1,8 +1,8 @@
 sample = ''' FOR BEST RESULTS, PLEASE KEEP COMMENTS OUT OF THE FIRST 50 CHARACTERS ON EACH LINE.
 12345678901234567890123456789012345678901234567890
 4                                                  ! Level of screen output.
-/pscratch/zcobell/post_proc/GMT/GMT4.5.6/bin/      ! Path where GMT executables are located.
-/usr/bin/                                          ! Path where GhostScript executable is located.
+                                                   ! Path where GMT executables are located.
+                                                   ! Path where GhostScript executable is located.
 Temp/                                              ! Path where temporary files will be created.
 plot                                               ! Alphanumeric label for these plots.
 0,Hurricane Katrina (Time in CDT)                    ! Plot label flag and plot label.
@@ -11,7 +11,7 @@ plot                                               ! Alphanumeric label for thes
 -89.647                                            !
 30.067                                             !
 29.795                                             !
-fort.14                                            ! Name of grid file.
+../fort.14                                            ! Name of grid file.
 0                                                  ! Plot grid flag: 0 to ignore, 1 to plot triangular grid on figure.
 PARAMETERS FOR CONTOURS:
 1                                                  ! Contour fill flag: 0 to ignore, 1 to plot filled contours, 2 to plot differences.
@@ -23,7 +23,7 @@ ft                                                   ! Alphanumeric label for un
 SMS                                                ! Color palette flag: RGB, SMS(+INTERVALS), CPT(+INTERVALS).
 Default2.pal                                       ! Name of SMS color palette.
 DEFAULT                                            ! Color lines flag: DEFAULT, CONTOUR-LINES, GRID-BATH/SIZE/DECOMP-#.  Requires GMT4.3.0.
--2.0,20.0                                          ! Minimum,maximum in contour range (or FIND to determine from file).
+FIND                                               ! Minimum,maximum in contour range (or FIND to determine from file).
 0.1                                                ! Interval in contour range.
 100                                                ! Number of times to split contour interval (for smoother plots).
 0                                                  ! Label every xth contour line on the plot (or 0 for no labels).
@@ -55,14 +55,31 @@ PARAMETERS FOR OVERALL PLOT(S):
 0,SatelliteImages.txt                              ! Background images: 0 to ignore, 1 to plot geo-referenced images from a list in an external file.
 8.00                                               ! Width (inches) of plot.
 0.25                                               ! Distance (inches) between edge of plot and contour scale, vector scale, time bar, plot label, etc.
-0.25                                               ! Alternate black and white boxes on the border at every xth degree.
-0.25                                               ! Annotate on the border at every xth degree.
+0.5                                               ! Alternate black and white boxes on the border at every xth degree.
+0.5                                               ! Annotate on the border at every xth degree.
 1                                                  ! Image trim flag: 0 to ignore, 1 to trim image close to plot.
-600                                                ! Resolution (dpi) of images.
+300                                                ! Resolution (dpi) of images.
 JPG                                                ! Available Raster and Vector file format(s): PNG, JPG, BMP, TIFF, EPS, PDF, PS.
 0,75,2,20050828120000                              ! Flag for Google KMZ file, transparency (0-100) of images, number of layers, and time stamp of first record in 63 file for animation.
 0,0                                                ! Flag for georeferencing: (0 to ignore, 1 for images, 2 for zipped images), and lowermost layer (or 0 to optimize).
-1                                                  ! Number of records for which to produce images (or 0 for all).
-433                                                ! List of records (ignored if the number of records is 0). '''
+0                                                  ! Number of records for which to produce images (or 0 for all).
+1                                                  ! List of records (ignored if the number of records is 0). '''
 
 samples = sample.splitlines()
+
+default2 = """PALETTE
+1
+"Palette1" 12
+0 0.0 1.0
+0.0 0 0 139
+0.0942 0 0 255
+0.1945 125 158 192
+0.31 98 221 221
+0.4164 0 210 0
+0.5137 255 255 0
+0.6079 255 215 0
+0.7052 255 104 32
+0.7872 251 57 30
+0.8541 232 0 0
+0.9119 179 0 0
+0.96 221 0 221"""
