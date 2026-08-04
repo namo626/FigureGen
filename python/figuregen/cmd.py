@@ -25,6 +25,8 @@ class Inp(Enum):
     YMAX = 12
     CONTOUR_RANGE = 25
     CONTOUR_INT = 26
+    ALTERNATE = 57
+    ANNOTATE = 58
 
 # 19 - input coutour file name
 def create_inp(args):
@@ -51,6 +53,12 @@ def create_inp(args):
     ss[Inp.YMIN.value] = str(ymin)
     ss[Inp.YMAX.value] = str(ymax)
 
+    dx = xmax - xmin
+    dy = ymax - ymin
+    spacing = max(dx, dy) / 10.
+    ss[Inp.ALTERNATE.value] = "%.1f" % spacing
+    ss[Inp.ANNOTATE.value] = "%.1f" % spacing
+
     if None in [args.cmin, args.cmax]:
         print("Using default contour range [-1,5]")
         ss[Inp.CONTOUR_RANGE.value] = "-1,5"
@@ -68,22 +76,54 @@ def create_inp(args):
         outfile.write(default2)
 
 def run_figuregen(args):
+    dirpath = os.getcwd()
     newpath = os.path.join(os.getcwd(), args.dir)
-    container_path = os.environ["FIG_PATH"]
-    figpath = os.path.join(container_path, "figuregen.sif")
+    figpath = os.path.join(os.environ["FIG_PATH"], "figuregen.sif")
+    np = 4
 
-    p = subprocess.run(["singularity", "exec", figpath,
-                        "mpirun", "-np", "2",
-                        "figuregen", "-I", "sample.inp"],
-                       cwd=newpath, capture_output=True, check=True)
-    print(p.stdout.decode())
+    os.chdir(newpath)
+    os.system("singularity exec %s mpirun -np %d figuregen -I sample.inp" % (figpath, np))
+    os.chdir(dirpath)
+    # p = subprocess.run(["singularity", "exec", figpath,
+    #                     "mpirun", "-np", "2",
+    #                     "figuregen", "-I", "sample.inp"],
+    #                    cwd=newpath, capture_output=True, check=True)
+    # print(p.stdout.decode())
 
-def main():
+def create_animation(args):
+    dirpath = os.getcwd()
+    newpath = os.path.join(os.getcwd(), args.dir)
+
+    os.chdir(newpath)
+    os.system("ffmpeg -framerate 10 -i plot%04d.jpg -vf \"pad=ceil(iw/2)*2:ceil(ih/2)*2\" -y movie.mp4")
+    os.chdir(dirpath)
+    
+
+def check_figuregen():
     try:
         container_path = os.environ["FIG_PATH"]
     except KeyError:
         print("ERROR: apptainer container path not set!")
         sys.exit()
+
+    if not os.path.exists(os.path.join(container_path, "figuregen.sif")):
+        print("ERROR: figuregen.sif not found in FIG_PATH!")
+        sys.exit()
+
+def check_input(args):
+    contour = os.path.join(os.getcwd(), args.fname)
+    f14 = os.path.join(os.getcwd(), "fort.14")
+
+    if not os.path.exists(contour):
+        print("ERROR: specified contour file \"%s\" does not exist!" % args.fname)
+        sys.exit()
+        
+    if not os.path.exists(f14):
+        print("ERROR: fort.14 does not exist!")
+        sys.exit()
+    
+def main():
+
 
     parser = argparse.ArgumentParser()
     parser.add_argument("fname", help="Input contour file")
@@ -97,11 +137,20 @@ def main():
     parser.add_argument("--ymax", type=float, help="Upper latitude")
     parser.add_argument("--region", choices=boxes.keys(), help="Predefined plot boxes")
     parser.add_argument("--grid", action="store_true", help="Plot grid lines")
+    parser.add_argument("--animate", action="store_true", help="Also produce a movie. Ignored if plotting maxele.63")
     args = parser.parse_args()
+
+    check_figuregen()
+    check_input(args)
+
+    if "maxele" in args.fname:
+        args.animate = False
 
     os.makedirs(args.dir, exist_ok=True)
     create_inp(args)
     run_figuregen(args)
+    if args.animate:
+        create_animation(args)
 
 if __name__ == "__main__":
     main()
