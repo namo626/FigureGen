@@ -30,7 +30,12 @@ class Inp(Enum):
 
 # 19 - input coutour file name
 def create_inp(args):
+    F14_FILE = "fort.14"
+    if os.path.isfile("fort.14.renum"):
+      F14_FILE = "fort.14.renum"
+
     ss = samples
+    ss[Inp.F14.value] = "../" + F14_FILE
     ss[Inp.CONTOUR_FILE.value] = os.path.join("..", args.fname)
 
     if args.grid:
@@ -45,7 +50,7 @@ def create_inp(args):
 
     else: # find min and max from fort.14
         print("Using plot range from fort.14")
-        f14 = Fort14("fort.14")
+        f14 = Fort14(F14_FILE)
         xmin, xmax, ymin, ymax = f14.box()
 
     ss[Inp.XMIN.value] = str(xmin)
