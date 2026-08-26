@@ -18,8 +18,8 @@ PARAMETERS FOR CONTOURS:
 0                                                  ! Contour lines flag: 0 to ignore, 1 to plot contour lines, 2 to plot differences.
 fort.63.nc                                            ! Name(s) of file(s) to use for contours.
 ADCIRC-OUTPUT                                      ! Contour file format flag: ADCIRC-OUTPUT, GRID-BATH/SIZE/DECOMP-#, 13-MANNING/CANOPY/TAU0/EVIS/SEA-SURFACE/WIND-REDUCTION(-#).
-3.28090                                            ! Unit conversion factor for contours.
-ft                                                   ! Alphanumeric label for units after conversion.
+1                                                  ! Unit conversion factor for contours.
+m                                                   ! Alphanumeric label for units after conversion.
 SMS                                                ! Color palette flag: RGB, SMS(+INTERVALS), CPT(+INTERVALS).
 Default2.pal                                       ! Name of SMS color palette.
 DEFAULT                                            ! Color lines flag: DEFAULT, CONTOUR-LINES, GRID-BATH/SIZE/DECOMP-#.  Requires GMT4.3.0.
@@ -48,7 +48,7 @@ ft/s                                               ! Alphanumeric label for unit
 8.0                                                ! Magnitude of vector to show in the vector scale (or FIND to determine from file).
 PARAMETERS FOR OVERALL PLOT(S):
 1,Tan                                              ! Boundaries flag: 0 to ignore, 1 to plot roads/levees from grid.
-1,White,4,4,1                                      ! Coastline flag: 0 to ignore, 1 to plot coastline with color, resolution (1[Least]-4[Most]), water bodies (1[Least]-4[Most]), Coastline Thickness.
+0,White,4,4,1                                      ! Coastline flag: 0 to ignore, 1 to plot coastline with color, resolution (1[Least]-4[Most]), water bodies (1[Least]-4[Most]), Coastline Thickness.
 0,Black,KatrinaTrack.txt,1                         ! Dots/lines flag: 0 to ignore, 1 to plot unconnected dots, 2 to plot connected line segments from an external file, Line Thickness.
 0,Labels.txt                                       ! Labels flag: 0 to ignore, 1 to plot labels from external file.
 0,TL,2.0,CHG.eps                                   ! Logo flag: 0 to ignore, 1 to plot logo at position (TL,TR,BL,BR) and width (inches) from an external file.
