@@ -16,8 +16,11 @@ boxes = {
 
 class Inp(Enum):
     CONTOUR_FILE = 18
+    CONTOUR_FORMAT = 19
+    CONTOUR_SCALE = 20
     F14 = 13
     GRID = 14
+    FILENAME = 6
     PLOT_LABEL = 7
     XMIN = 9
     XMAX = 10
@@ -26,6 +29,7 @@ class Inp(Enum):
     CONTOUR_RANGE = 25
     CONTOUR_INT = 26
     VECTOR_FLAG = 39
+    VECTOR_FILE = 40
     ALTERNATE = 57
     ANNOTATE = 58
 
@@ -38,6 +42,12 @@ def create_inp(args):
     ss = samples
     ss[Inp.F14.value] = "../" + F14_FILE
     ss[Inp.CONTOUR_FILE.value] = os.path.join("..", args.fname)
+
+    if args.bath:
+        ss[Inp.CONTOUR_FORMAT.value] = "GRID-BATH"
+        ss[Inp.CONTOUR_FILE.value] = "../" + F14_FILE
+        ss[Inp.CONTOUR_SCALE.value] = "-1"
+        ss[Inp.FILENAME.value] = "bath"
 
     if args.grid:
         ss[Inp.GRID.value] = '1'
@@ -76,6 +86,8 @@ def create_inp(args):
         
     if args.vector:
         ss[Inp.VECTOR_FLAG.value] = '1'
+        ss[Inp.VECTOR_FILE.value] = '../' + args.vector_file
+        print(f"Using vector file {args.vector_file}")
 
     with open(os.path.join(args.dir, "sample.inp"), 'w') as outfile:
         outfile.write('\n'.join(s for s in ss))
@@ -130,8 +142,8 @@ def check_input(args):
         print("ERROR: fort.14 does not exist!")
         sys.exit()
 
-    if args.vector and (not os.path.exists("fort.64.nc")):
-        print("ERROR: fort.64.nc not found!")
+    if args.vector and (not os.path.exists(args.vector_file)):
+        print(f"ERROR: {args.vector_file} not found!")
         sys.exit()
     
 def main():
@@ -150,8 +162,12 @@ def main():
     parser.add_argument("--region", choices=boxes.keys(), help="Predefined plot boxes")
     parser.add_argument("--grid", action="store_true", help="Plot grid lines")
     parser.add_argument("--animate", action="store_true", help="Also produce a movie. Ignored if plotting maxele.63")
-    parser.add_argument("--vector", action="store_true", help="Plot velocity vectors from fort.64.nc")
+    parser.add_argument("--vector", action="store_true", help="Plot velocity vectors from fort.64 file with the same name as the given fort.63 file.")
+    parser.add_argument("--bath", action="store_true", help="Plot bathymetry.")
     args = parser.parse_args()
+
+    if args.vector:
+        args.vector_file = args.fname.replace("63", "64")
 
     check_figuregen()
     check_input(args)
