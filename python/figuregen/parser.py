@@ -38,14 +38,14 @@ pth.201006290000.nc                                ! Name of path file to use fo
 1,0,Brown                                          ! Particle size (pixels), pattern and color.
 PARAMETERS FOR VECTORS:
 0                                                  ! Vector flag: 0 to ignore, 1 to plot vectors.
-fort.64.nc                                            ! Name of file to use for vectors (fort.64, fort.74).
+../fort.64.nc                                            ! Name of file to use for vectors (fort.64, fort.74).
 ADCIRC-OUTPUT                                      ! Vector file format flag: ADCIRC-OUTPUT.
-3.28000                                            ! Unit conversion factor for vectors.
-ft/s                                               ! Alphanumeric label for units after conversion.
-20.0                                               ! Magnitude of vector corresponding to one inch on the page.
+1                                                  ! Unit conversion factor for vectors.
+m/s                                                ! Alphanumeric label for units after conversion.
+5.0                                               ! Magnitude of vector corresponding to one inch on the page.
 0.5,k                                                ! Spacing between vectors in degrees.
 0.06,0.04,0.01                                     ! Vector head length, head width, tail width.
-8.0                                                ! Magnitude of vector to show in the vector scale (or FIND to determine from file).
+10.0                                                ! Magnitude of vector to show in the vector scale (or FIND to determine from file).
 PARAMETERS FOR OVERALL PLOT(S):
 1,Tan                                              ! Boundaries flag: 0 to ignore, 1 to plot roads/levees from grid.
 0,White,4,4,1                                      ! Coastline flag: 0 to ignore, 1 to plot coastline with color, resolution (1[Least]-4[Most]), water bodies (1[Least]-4[Most]), Coastline Thickness.
@@ -58,7 +58,7 @@ PARAMETERS FOR OVERALL PLOT(S):
 0.5                                               ! Alternate black and white boxes on the border at every xth degree.
 0.5                                               ! Annotate on the border at every xth degree.
 1                                                  ! Image trim flag: 0 to ignore, 1 to trim image close to plot.
-300                                                ! Resolution (dpi) of images.
+600                                                ! Resolution (dpi) of images.
 JPG                                                ! Available Raster and Vector file format(s): PNG, JPG, BMP, TIFF, EPS, PDF, PS.
 0,75,2,20050828120000                              ! Flag for Google KMZ file, transparency (0-100) of images, number of layers, and time stamp of first record in 63 file for animation.
 0,0                                                ! Flag for georeferencing: (0 to ignore, 1 for images, 2 for zipped images), and lowermost layer (or 0 to optimize).

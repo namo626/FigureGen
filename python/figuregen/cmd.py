@@ -25,6 +25,7 @@ class Inp(Enum):
     YMAX = 12
     CONTOUR_RANGE = 25
     CONTOUR_INT = 26
+    VECTOR_FLAG = 39
     ALTERNATE = 57
     ANNOTATE = 58
 
@@ -73,6 +74,8 @@ def create_inp(args):
     if args.cint is not None:
         ss[Inp.CONTOUR_INT.value] = str(args.cint)
         
+    if args.vector:
+        ss[Inp.VECTOR_FLAG.value] = '1'
 
     with open(os.path.join(args.dir, "sample.inp"), 'w') as outfile:
         outfile.write('\n'.join(s for s in ss))
@@ -126,6 +129,10 @@ def check_input(args):
     if not os.path.exists(f14):
         print("ERROR: fort.14 does not exist!")
         sys.exit()
+
+    if args.vector and (not os.path.exists("fort.64.nc")):
+        print("ERROR: fort.64.nc not found!")
+        sys.exit()
     
 def main():
 
@@ -143,6 +150,7 @@ def main():
     parser.add_argument("--region", choices=boxes.keys(), help="Predefined plot boxes")
     parser.add_argument("--grid", action="store_true", help="Plot grid lines")
     parser.add_argument("--animate", action="store_true", help="Also produce a movie. Ignored if plotting maxele.63")
+    parser.add_argument("--vector", action="store_true", help="Plot velocity vectors from fort.64.nc")
     args = parser.parse_args()
 
     check_figuregen()
