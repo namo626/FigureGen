@@ -42,10 +42,10 @@ PARAMETERS FOR VECTORS:
 ADCIRC-OUTPUT                                      ! Vector file format flag: ADCIRC-OUTPUT.
 1                                                  ! Unit conversion factor for vectors.
 m/s                                                ! Alphanumeric label for units after conversion.
-5.0                                               ! Magnitude of vector corresponding to one inch on the page.
+1.0                                               ! Magnitude of vector corresponding to one inch on the page.
 0.5,k                                                ! Spacing between vectors in degrees.
-0.06,0.04,0.01                                     ! Vector head length, head width, tail width.
-10.0                                                ! Magnitude of vector to show in the vector scale (or FIND to determine from file).
+0.05,0.03,0.005                                     ! Vector head length, head width, tail width.
+1.0                                                ! Magnitude of vector to show in the vector scale (or FIND to determine from file).
 PARAMETERS FOR OVERALL PLOT(S):
 1,Tan                                              ! Boundaries flag: 0 to ignore, 1 to plot roads/levees from grid.
 0,White,4,4,1                                      ! Coastline flag: 0 to ignore, 1 to plot coastline with color, resolution (1[Least]-4[Most]), water bodies (1[Least]-4[Most]), Coastline Thickness.
